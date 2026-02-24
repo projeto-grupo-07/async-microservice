@@ -1,11 +1,9 @@
 package com.example.ms_report_async.infraestructure.config;
 
+
+import org.springframework.amqp.core.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.amqp.core.QueueBuilder;
-
-
-import java.util.Queue;
 
 @Configuration
 public class RabbitMQConfig {
@@ -25,10 +23,11 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    public Binding importBinding() {
+    public Binding binding() {
         return BindingBuilder
                 .bind(importQueue())
                 .to(importExchange())
                 .with(ROUTING_KEY);
     }
 }
+
