@@ -8,9 +8,9 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMQConfig {
 
-    public static final String QUEUE = "import_csv_queue";
-    public static final String EXCHANGE = "import_exchange";
-    public static final String ROUTING_KEY = "import.csv";
+    public static final String QUEUE = "import_csv_queue3";
+    public static final String EXCHANGE = "import_exchange3";
+    public static final String ROUTING_KEY = "import.csv3";
 
     @Bean
     public Queue importQueue() {

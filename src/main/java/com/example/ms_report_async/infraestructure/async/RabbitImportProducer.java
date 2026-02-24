@@ -20,12 +20,12 @@ public class RabbitImportProducer {
     public String publish(String fileKey) {
         String jobId = UUID.randomUUID().toString();
 
-        JobMessage msg = new JobMessage(jobId, fileKey);
+        String jsonPayload = String.format("{\"jobId\":\"%s\", \"fileKey\":\"%s\"}", jobId, fileKey);
 
         rabbit.convertAndSend(
                 RabbitMQConfig.EXCHANGE,
                 RabbitMQConfig.ROUTING_KEY,
-                msg
+                jsonPayload
         );
 
         return jobId;

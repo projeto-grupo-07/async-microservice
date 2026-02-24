@@ -24,6 +24,4 @@ public class ImportController {
         String jobId = producer.publish(fileKey);
         return ResponseEntity.accepted().body(new JobResponse(jobId));
     }
-
-
 }

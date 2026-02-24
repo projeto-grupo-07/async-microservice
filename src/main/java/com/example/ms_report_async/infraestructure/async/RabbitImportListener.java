@@ -17,8 +17,12 @@ public class RabbitImportListener {
     }
 
     @RabbitListener(queues = RabbitMQConfig.QUEUE)
-    public void receive(JobMessage message) {
-        useCase.execute(message.fileKey());
+    public void receive(String jsonMessage) {
+        System.out.println("MENSAGEM RECEBIDA DO RABBITMQ: " + jsonMessage);
+
+        String fileKey = jsonMessage.split("\"fileKey\":\"")[1].replace("\"}", "");
+
+        useCase.execute(fileKey);
     }
 }
 
