@@ -6,6 +6,7 @@ import com.example.ms_report_async.domain.repository.CsvParserPort;
 import com.example.ms_report_async.domain.repository.S3Port;
 import com.example.ms_report_async.domain.service.GeneratePdfReportUseCase;
 import com.example.ms_report_async.domain.service.ProcessImportFileUseCase;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
@@ -21,6 +22,9 @@ public class ProcessImportFileUseCaseImpl implements ProcessImportFileUseCase {
     private final CsvParserPort csv;
     private final GeneratePdfReportUseCase pdf;
 
+    @Value("${aws.s3.bucket-name}")
+    String bucketName;
+
     public ProcessImportFileUseCaseImpl(S3Port s3, CsvParserPort csv, GeneratePdfReportUseCase pdf) {
         this.s3 = s3;
         this.csv = csv;
@@ -29,7 +33,9 @@ public class ProcessImportFileUseCaseImpl implements ProcessImportFileUseCase {
 
     @Override
     public String execute(String fileKey) {
-        try (InputStream in = s3.download("my-bucket", fileKey)) {
+
+        try (InputStream in = s3.download(bucketName, fileKey)) {
+            System.out.println("bucket name: " + bucketName);
             List<ImportRow> rows = csv.parse(in);
 
             ImportReport report = consolidate(rows);
