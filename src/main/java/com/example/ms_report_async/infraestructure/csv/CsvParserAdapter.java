@@ -29,6 +29,7 @@ public class CsvParserAdapter implements CsvParserPort {
             CSVParser parser = CSVFormat.DEFAULT
                     .withIgnoreEmptyLines()
                     .withTrim()
+                    .withAllowMissingColumnNames()
                     .withFirstRecordAsHeader()
                     .parse(reader);
 

@@ -7,6 +7,7 @@ import com.example.ms_report_async.domain.service.GeneratePdfReportUseCase;
 import com.lowagie.text.*;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayOutputStream;
@@ -16,7 +17,8 @@ import java.util.Locale;
 @Component
 public class PdfGeneratorAdapter implements GeneratePdfReportUseCase {
     private final S3Port s3Port;
-    private final String outputBucket = "YOUR_OUTPUT_BUCKET";
+
+    private final String outputBucket = "brinks-bucket-2";
 
     public PdfGeneratorAdapter(S3Port s3Port) {
         this.s3Port = s3Port;
