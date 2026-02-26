@@ -2,8 +2,10 @@ package com.example.ms_report_async.domain.entity;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 public class ImportReport {
+    private String jobId;
     private LocalDateTime processedAt;
     private List<ImportRow> rows;
 
@@ -23,11 +25,20 @@ public class ImportReport {
         this.rows = rows;
     }
 
+    public String getJobId() {
+        return jobId;
+    }
+
+    public void setJobId(String jobId) {
+        this.jobId = jobId;
+    }
+
     public ImportReport() {
     }
 
-    public ImportReport(LocalDateTime processedAt, List<ImportRow> rows) {
+    public ImportReport(LocalDateTime processedAt, List<ImportRow> rows, String jobId) {
         this.processedAt = processedAt;
         this.rows = rows;
+        this.jobId = jobId;
     }
 }

@@ -29,7 +29,7 @@ public class PdfGeneratorAdapter implements GeneratePdfReportUseCase {
 
         byte[] pdf = buildPdf(report);
 
-        String pdfKey = "reports/import-report-" + report.getProcessedAt() + ".pdf";
+        String pdfKey = "reports/import-report-" + report.getJobId() + ".pdf";
 
         s3Port.upload(outputBucket, pdfKey, pdf, "application/pdf");
 

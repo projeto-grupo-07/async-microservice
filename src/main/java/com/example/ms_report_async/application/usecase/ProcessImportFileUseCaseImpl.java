@@ -10,10 +10,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
+import java.util.UUID;
 
 @Service
 public class ProcessImportFileUseCaseImpl implements ProcessImportFileUseCase {
@@ -32,33 +31,23 @@ public class ProcessImportFileUseCaseImpl implements ProcessImportFileUseCase {
     }
 
     @Override
-    public String execute(String fileKey) {
+    public String execute(String fileKey, String jobId) {
 
         try (InputStream in = s3.download(bucketName, fileKey)) {
             System.out.println("bucket name: " + bucketName);
             List<ImportRow> rows = csv.parse(in);
 
-            ImportReport report = consolidate(rows);
-
+            ImportReport report = consolidate(rows, jobId);
             return pdf.execute(report);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-    private ImportReport consolidate(List<ImportRow> rows) {
-        BigDecimal sumVolume = rows.stream()
-                .map(ImportRow::getVolumeTotal)
-                .filter(v -> v != null)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-
-        BigDecimal sumValor = rows.stream()
-                .map(ImportRow::getValorTotal)
-                .filter(Objects::nonNull)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-
+    private ImportReport consolidate(List<ImportRow> rows, String jobId) {
         ImportReport report = new ImportReport();
         report.setProcessedAt(LocalDateTime.now());
+        report.setJobId(jobId);
         report.setRows(rows);
 
         return report;
