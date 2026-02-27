@@ -1,8 +1,9 @@
 package com.example.ms_report_async.infraestructure.async;
 
-
 import com.example.ms_report_async.domain.service.ProcessImportFileUseCase;
 import com.example.ms_report_async.infraestructure.config.RabbitMQConfig;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 import tools.jackson.databind.JsonNode;
@@ -11,6 +12,7 @@ import tools.jackson.databind.ObjectMapper;
 @Component
 public class RabbitImportListener {
 
+    private static final Logger logger = LoggerFactory.getLogger(RabbitImportListener.class);
     private final ProcessImportFileUseCase useCase;
     private final ObjectMapper objectMapper;
 
@@ -21,19 +23,19 @@ public class RabbitImportListener {
 
     @RabbitListener(queues = RabbitMQConfig.QUEUE)
     public void receive(String jsonMessage) {
-        System.out.println("MENSAGEM RECEBIDA DO RABBITMQ: " + jsonMessage);
+        logger.info("Mensagem recebida do RabbitMQ: {}", jsonMessage);
 
         try {
-            // 3. Extraia os valores de forma segura lendo o JSON
             JsonNode jsonNode = objectMapper.readTree(jsonMessage);
             String jobId = jsonNode.get("jobId").toString();
             String fileKey = jsonNode.get("fileKey").asText();
 
-            // 4. Repasse os dois para o UseCase
+            logger.debug("Iniciando processamento. JobId: {}, FileKey: {}", jobId, fileKey);
             useCase.execute(fileKey, jobId);
+            logger.info("Processamento concluído com sucesso. JobId: {}, FileKey: {}", jobId, fileKey);
 
         } catch (Exception e) {
-            System.err.println("Erro ao processar mensagem JSON: " + e.getMessage());
+            logger.error("Erro ao processar mensagem JSON: {}", jsonMessage, e);
             throw new RuntimeException("Falha ao ler JSON do RabbitMQ", e);
         }
     }
