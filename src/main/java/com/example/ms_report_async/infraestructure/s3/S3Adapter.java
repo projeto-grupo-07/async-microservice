@@ -3,6 +3,7 @@ package com.example.ms_report_async.infraestructure.s3;
 import com.example.ms_report_async.domain.repository.S3Port;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import software.amazon.awssdk.core.ResponseBytes;
 import software.amazon.awssdk.core.sync.RequestBody;
@@ -19,6 +20,9 @@ public class S3Adapter implements S3Port{
 
     private static final Logger logger = LoggerFactory.getLogger(S3Adapter.class);
     private final S3Client s3Client;
+
+    @Value("${aws.s3.bucket-reports}")
+    private String reportsBucketName;
 
     public S3Adapter(S3Client s3Client) {
         this.s3Client = s3Client;
@@ -64,10 +68,10 @@ public class S3Adapter implements S3Port{
     @Override
     public byte[] getPdfFromBucket2(String jobId) {
         logger.debug("Recuperando PDF do S3. JobId: {}", jobId);
-        String fileName = jobId + ".pdf"; // Supondo que você salvou com esse nome
+        String fileName = "reports/import-report-" + jobId + ".pdf";
 
         GetObjectRequest getObjectRequest = GetObjectRequest.builder()
-                .bucket("nome-do-bucket-2")
+                .bucket(reportsBucketName)
                 .key(fileName)
                 .build();
 
