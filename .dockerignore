@@ -1,0 +1,10 @@
+.mvn
+target
+logs
+.git
+.idea
+.vscode
+.DS_Store
+*.log
+Dockerfile
+docker-compose.yml
