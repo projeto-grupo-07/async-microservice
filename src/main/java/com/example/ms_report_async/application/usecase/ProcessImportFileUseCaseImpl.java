@@ -24,7 +24,7 @@ public class ProcessImportFileUseCaseImpl implements ProcessImportFileUseCase {
     private final CsvParserPort csv;
     private final GeneratePdfReportUseCase pdf;
 
-    @Value("${aws.s3.bucket-name}")
+    @Value("${aws.s3.bucket-trusted}")
     String bucketName;
 
     public ProcessImportFileUseCaseImpl(S3Port s3, CsvParserPort csv, GeneratePdfReportUseCase pdf) {

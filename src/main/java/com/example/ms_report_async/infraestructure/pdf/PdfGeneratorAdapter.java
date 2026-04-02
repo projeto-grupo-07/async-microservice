@@ -35,7 +35,7 @@ public class PdfGeneratorAdapter implements GeneratePdfReportUseCase {
 
     private final S3Port s3Port;
 
-    @Value("${aws.s3.output-bucket:brinks-bucket-2}")
+    @Value("${aws.s3.bucket-client}")
     private String outputBucket;
 
     public PdfGeneratorAdapter(S3Port s3Port) {

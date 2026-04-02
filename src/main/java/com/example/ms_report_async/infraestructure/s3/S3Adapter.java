@@ -21,7 +21,7 @@ public class S3Adapter implements S3Port{
     private static final Logger logger = LoggerFactory.getLogger(S3Adapter.class);
     private final S3Client s3Client;
 
-    @Value("${aws.s3.bucket-reports}")
+    @Value("${aws.s3.bucket-client}")
     private String reportsBucketName;
 
     public S3Adapter(S3Client s3Client) {
