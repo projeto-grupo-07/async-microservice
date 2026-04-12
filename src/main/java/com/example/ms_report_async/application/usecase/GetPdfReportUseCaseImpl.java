@@ -17,16 +17,16 @@ public class GetPdfReportUseCaseImpl implements GetPdfReportUseCase {
     }
 
     @Override
-    public byte[] execute(String jobId) {
-        logger.info("Iniciando busca do PDF para o JobId: {}", jobId);
-        byte[] pdfContent = s3Port.getPdfFromBucket2(jobId);
+    public byte[] execute(String compositeJobId) {
+        logger.info("Iniciando busca do PDF para o JobId: {}", compositeJobId);
+        byte[] pdfContent = s3Port.getPdfFromBucketClient(compositeJobId);
         
         if (pdfContent == null) {
-            logger.warn("PDF não encontrado para o JobId: {}", jobId);
-            throw new RuntimeException("PDF não encontrado para o JobId: " + jobId);
+            logger.warn("PDF não encontrado para o JobId: {}", compositeJobId);
+            throw new RuntimeException("PDF não encontrado para o JobId: " + compositeJobId);
         }
 
-        logger.info("PDF encontrado com sucesso. JobId: {}, Tamanho: {} bytes", jobId, pdfContent.length);
+        logger.info("PDF encontrado com sucesso. JobId: {}, Tamanho: {} bytes", compositeJobId, pdfContent.length);
         return pdfContent;
     }
 }

@@ -22,8 +22,13 @@ public class CsvParserAdapter implements CsvParserPort {
 
     private static final Logger logger = LoggerFactory.getLogger(CsvParserAdapter.class);
     private static final Set<String> REQUIRED_HEADERS = Set.of(
-            "ncm", "pais_origem", "volume_total", "valor_total",
-            "preco_medio", "frete_medio", "seguro_medio"
+            "ncm",
+            "pais_origem",
+            "peso_liq_soma_truncado",
+            "vmle_soma_dolar_truncado",
+            "fob_kg_media_dolar_truncado",
+            "frete_media_dolar_truncado",
+            "seguro_media_dolar_truncado"
     );
 
     @Override
@@ -81,20 +86,26 @@ public class CsvParserAdapter implements CsvParserPort {
     private ImportRow buildImportRow(CSVRecord record) {
         try {
             ImportRow row = new ImportRow();
+
+            // Textos
             row.setNcm(getTrimmedValue(record, "ncm"));
             row.setPaisOrigem(getTrimmedValue(record, "pais_origem"));
-            row.setVolumeTotal(getDecimal(record, "volume_total"));
-            row.setValorTotal(getDecimal(record, "valor_total"));
-            row.setPrecoMedio(getDecimal(record, "preco_medio"));
-            row.setFreteMedio(getDecimal(record, "frete_medio"));
-            row.setSeguroMedio(getDecimal(record, "seguro_medio"));
+
+            // Totais
+            row.setVolumeTotal(getDecimal(record, "peso_liq_soma_truncado"));
+            row.setValorTotal(getDecimal(record, "vmle_soma_dolar_truncado"));
+
+            // Médias
+            row.setPrecoMedio(getDecimal(record, "fob_kg_media_dolar_truncado"));
+            row.setFreteMedio(getDecimal(record, "frete_media_dolar_truncado"));
+            row.setSeguroMedio(getDecimal(record, "seguro_media_dolar_truncado"));
+
             return row;
         } catch (Exception e) {
             logger.error("Erro ao construir ImportRow do record: {}", record, e);
             throw e;
         }
     }
-
     private String getTrimmedValue(CSVRecord record, String header) {
         String value = record.get(header);
         return value == null ? null : value.trim();

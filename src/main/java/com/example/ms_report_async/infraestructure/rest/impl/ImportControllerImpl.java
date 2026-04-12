@@ -26,40 +26,55 @@ public class ImportControllerImpl implements ImportController {
 
     @Override
     public ResponseEntity<JobResponse> importFile(@PathVariable String fileKey) {
-        logger.info("Recebendo requisição de importação. FileKey: {}", fileKey);
+        String normalizedKey = fileKey.startsWith("/") ? fileKey.substring(1) : fileKey;
+        logger.info("Recebendo requisição de importação. FileKey: {}", normalizedKey);
         try {
-            String jobId = producer.publish(fileKey);
-            logger.info("Importação enfileirada com sucesso. JobId: {}, FileKey: {}", jobId, fileKey);
+            String jobId = producer.publish(normalizedKey);
+            logger.info("Importação enfileirada com sucesso. JobId: {}, FileKey: {}", jobId, normalizedKey);
             return ResponseEntity.accepted().body(new JobResponse(jobId));
         } catch (Exception e) {
-            logger.error("Erro ao enfileirar importação para FileKey: {}", fileKey, e);
+            logger.error("Erro ao enfileirar importação para FileKey: {}", normalizedKey, e);
             throw e;
         }
     }
 
     @Override
     public ResponseEntity<byte[]> getReport(@PathVariable String jobId) {
-        logger.info("Recebendo requisição de download de relatório. JobId: {}", jobId);
+        String[] parts = jobId.split(";");
+        if (parts.length < 2) {
+            logger.warn("Requisição de download com JobId inválido: {}", jobId);
+            return ResponseEntity.badRequest().build();
+        }
+
+        // 2. Limpeza de barras extras (se o path vier como "/ano=2026...")
+        String path = parts[0].startsWith("/") ? parts[0].substring(1) : parts[0];
+        String uuid = parts[1];
+
+        String debugKey = "reports/" + path + "import-report-" + uuid + ".pdf";
+        logger.info("Recebendo requisição de download. JobId: {}, Tentando S3Key: {}", jobId, debugKey);
+
         try {
             byte[] pdfContent = getPdfReportUseCase.execute(jobId);
 
-            if (pdfContent == null) {
-                logger.warn("Relatório não encontrado para JobId: {}", jobId);
+            if (pdfContent == null || pdfContent.length == 0) {
+                logger.warn("Relatório não encontrado no S3 para JobId: {}", jobId);
                 return ResponseEntity.notFound().build();
             }
 
+            // 4. Headers para o navegador entender que é um PDF
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_PDF);
-            headers.setContentDispositionFormData("attachment", jobId + ".pdf");
-            headers.setContentLength(pdfContent.length);
+            // Nome amigável para o arquivo que o usuário vai baixar
+            headers.setContentDispositionFormData("attachment", "relatorio-" + uuid + ".pdf");
 
-            logger.info("Retornando relatório PDF. JobId: {}, Tamanho: {} bytes", jobId, pdfContent.length);
             return ResponseEntity.ok()
                     .headers(headers)
+                    .contentLength(pdfContent.length)
                     .body(pdfContent);
+
         } catch (Exception e) {
-            logger.error("Erro ao recuperar relatório para JobId: {}", jobId, e);
-            throw e;
+            logger.error("Erro interno ao recuperar relatório: {}", jobId, e);
+            return ResponseEntity.internalServerError().build();
         }
     }
 }

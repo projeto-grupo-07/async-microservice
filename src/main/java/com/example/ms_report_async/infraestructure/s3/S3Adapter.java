@@ -22,7 +22,7 @@ public class S3Adapter implements S3Port{
     private final S3Client s3Client;
 
     @Value("${aws.s3.bucket-client}")
-    private String reportsBucketName;
+    private String bucketClient;
 
     public S3Adapter(S3Client s3Client) {
         this.s3Client = s3Client;
@@ -30,18 +30,19 @@ public class S3Adapter implements S3Port{
 
     @Override
     public InputStream download(String bucket, String key) {
-        logger.info("Iniciando download do S3. Bucket: {}, Key: {}", bucket, key);
+        String cleanKey = key.startsWith("/") ? key.substring(1) : key;
+        logger.info("Iniciando download do S3. Bucket: {}, Key: {}", bucket, cleanKey);
         try {
             GetObjectRequest req = GetObjectRequest.builder()
                     .bucket(bucket)
-                    .key(key)
+                    .key(cleanKey)
                     .build();
 
             InputStream stream = s3Client.getObject(req);
-            logger.debug("Download do S3 iniciado com sucesso. Bucket: {}, Key: {}", bucket, key);
+            logger.debug("Download do S3 iniciado com sucesso. Bucket: {}, Key: {}", bucket, cleanKey);
             return stream;
         } catch (Exception e) {
-            logger.error("Erro ao fazer download do S3. Bucket: {}, Key: {}", bucket, key, e);
+            logger.error("Erro ao fazer download do S3. Bucket: {}, Key: {}", bucket, cleanKey, e);
             throw e;
         }
     }
@@ -66,24 +67,38 @@ public class S3Adapter implements S3Port{
     }
 
     @Override
-    public byte[] getPdfFromBucket2(String jobId) {
+    public byte[] getPdfFromBucketClient(String jobId) {
         logger.debug("Recuperando PDF do S3. JobId: {}", jobId);
-        String fileName = "reports/import-report-" + jobId + ".pdf";
+
+        String[] parts = jobId.split(";");
+        if (parts.length < 2) {
+            logger.warn("JobId inválido para recuperação de PDF: {}", jobId);
+            return null;
+        }
+
+        //Limpar a barra inicial se houver (mesmo erro do download de CSV)
+        String path = parts[0].startsWith("/") ? parts[0].substring(1) : parts[0];
+        String uuid = parts[1];
+
+        // Montar a chave EXATAMENTE como ela foi gravada no upload
+        // Ex: reports/ano=2026/mes=01/import-report-uuid.pdf
+        String fileName = "reports/" + path + "import-report-" + uuid + ".pdf";
+
+        logger.info("Tentando buscar PDF no S3 com a chave: {}", fileName);
 
         GetObjectRequest getObjectRequest = GetObjectRequest.builder()
-                .bucket(reportsBucketName)
+                .bucket(bucketClient)
                 .key(fileName)
                 .build();
 
         try {
             ResponseBytes<GetObjectResponse> objectBytes = s3Client.getObjectAsBytes(getObjectRequest);
-            logger.info("PDF recuperado com sucesso. JobId: {}, TamanhoBytes: {}", jobId, objectBytes.asByteArray().length);
             return objectBytes.asByteArray();
         } catch (NoSuchKeyException e) {
-            logger.warn("PDF não encontrado no S3. JobId: {}", jobId);
+            logger.warn("PDF não encontrado no S3: bucket={}, key={}", bucketClient, fileName);
             return null;
         } catch (Exception e) {
-            logger.error("Erro ao recuperar PDF do S3. JobId: {}", jobId, e);
+            logger.error("Erro ao recuperar PDF do S3. Key: {}", fileName, e);
             throw e;
         }
     }

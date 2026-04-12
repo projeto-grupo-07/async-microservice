@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Tag(name = "Import", description = "Endpoints para importação de arquivos")
 public interface ImportController {
 
-    @PostMapping("/{fileKey}")
+    @PostMapping("/{*fileKey}")
     @Operation(summary = "Iniciar importação de arquivo", description = "Enfileira uma tarefa de importação assincrona para o arquivo especificado")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "202", description = "Requisição aceita - importação enfileirada com sucesso",
@@ -27,7 +27,7 @@ public interface ImportController {
     })
     ResponseEntity<JobResponse> importFile(@PathVariable String fileKey);
 
-    @GetMapping("/report/{jobId}")
+    @GetMapping("/report/{*jobId}")
     @Operation(summary = "Baixar relatório PDF", description = "Retorna o PDF gerado para um Job ID específico")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "PDF retornado com sucesso",

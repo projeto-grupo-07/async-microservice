@@ -21,9 +21,14 @@ public class RabbitImportProducer {
 
     public String publish(String fileKey) {
         String jobId = UUID.randomUUID().toString();
-        logger.debug("Gerando novo JobId: {} para FileKey: {}", jobId, fileKey);
 
-        String jsonPayload = String.format("{\"jobId\":\"%s\", \"fileKey\":\"%s\"}", jobId, fileKey);
+        String path = fileKey.contains("/") ? fileKey.substring(0, fileKey.lastIndexOf("/") + 1) : "";
+
+        logger.debug("Gerando novo JobId: {} para FileKey: {} com o path: {}", jobId, fileKey, path);
+
+        String compositeJobId = path + ";" + jobId;
+
+        String jsonPayload = String.format("{\"jobId\":\"%s\", \"fileKey\":\"%s\"}", compositeJobId, fileKey);
 
         try {
             rabbit.convertAndSend(
@@ -32,13 +37,13 @@ public class RabbitImportProducer {
                     jsonPayload
             );
             logger.info("Mensagem publicada no RabbitMQ com sucesso. Exchange: {}, RoutingKey: {}, JobId: {}",
-                    RabbitMQConfig.EXCHANGE, RabbitMQConfig.ROUTING_KEY, jobId);
+                    RabbitMQConfig.EXCHANGE, RabbitMQConfig.ROUTING_KEY, compositeJobId);
         } catch (Exception e) {
-            logger.error("Erro ao publicar mensagem no RabbitMQ para JobId: {}", jobId, e);
+            logger.error("Erro ao publicar mensagem no RabbitMQ para JobId: {}", compositeJobId, e);
             throw new RuntimeException("Falha ao publicar mensagem no RabbitMQ", e);
         }
 
-        return jobId;
+        return compositeJobId;
     }
 }
 
