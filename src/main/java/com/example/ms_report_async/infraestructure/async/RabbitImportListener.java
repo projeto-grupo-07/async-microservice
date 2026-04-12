@@ -27,7 +27,7 @@ public class RabbitImportListener {
 
         try {
             JsonObject jsonObject = gson.fromJson(jsonMessage, JsonObject.class);
-            
+
             String jobId = jsonObject.get("jobId").getAsString();
             String fileKey = jsonObject.get("fileKey").getAsString();
 

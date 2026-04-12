@@ -38,7 +38,7 @@ public class ProcessImportFileUseCaseImpl implements ProcessImportFileUseCase {
 
     @Override
     public String execute(String fileKey, String compositeJobId) {
-        String[] parts = compositeJobId.split(";");
+        String[] parts = compositeJobId.split("__");
         String path = parts[0];       // "ano=2026/mes=01/"
         String realUuid = parts[1];   // "550e8400..."
 

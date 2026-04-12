@@ -2,10 +2,8 @@ package com.example.ms_report_async.infraestructure.rest.impl;
 
 import com.example.ms_report_async.application.dto.JobResponse;
 import com.example.ms_report_async.domain.service.GetPdfReportUseCase;
-import com.example.ms_report_async.infraestructure.async.RabbitImportProducer;
 import com.example.ms_report_async.infraestructure.rest.controller.ImportController;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -13,36 +11,20 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@Slf4j
 public class ImportControllerImpl implements ImportController {
 
-    private static final Logger logger = LoggerFactory.getLogger(ImportControllerImpl.class);
-    private final RabbitImportProducer producer;
     private final GetPdfReportUseCase getPdfReportUseCase;
 
-    public ImportControllerImpl(RabbitImportProducer producer, GetPdfReportUseCase getPdfReportUseCase) {
-        this.producer = producer;
+    public ImportControllerImpl(GetPdfReportUseCase getPdfReportUseCase) {
         this.getPdfReportUseCase = getPdfReportUseCase;
     }
 
     @Override
-    public ResponseEntity<JobResponse> importFile(@PathVariable String fileKey) {
-        String normalizedKey = fileKey.startsWith("/") ? fileKey.substring(1) : fileKey;
-        logger.info("Recebendo requisição de importação. FileKey: {}", normalizedKey);
-        try {
-            String jobId = producer.publish(normalizedKey);
-            logger.info("Importação enfileirada com sucesso. JobId: {}, FileKey: {}", jobId, normalizedKey);
-            return ResponseEntity.accepted().body(new JobResponse(jobId));
-        } catch (Exception e) {
-            logger.error("Erro ao enfileirar importação para FileKey: {}", normalizedKey, e);
-            throw e;
-        }
-    }
-
-    @Override
     public ResponseEntity<byte[]> getReport(@PathVariable String jobId) {
-        String[] parts = jobId.split(";");
+        String[] parts = jobId.split("__");
         if (parts.length < 2) {
-            logger.warn("Requisição de download com JobId inválido: {}", jobId);
+            log.warn("Requisição de download com JobId inválido: {}", jobId);
             return ResponseEntity.badRequest().build();
         }
 
@@ -51,13 +33,13 @@ public class ImportControllerImpl implements ImportController {
         String uuid = parts[1];
 
         String debugKey = "reports/" + path + "import-report-" + uuid + ".pdf";
-        logger.info("Recebendo requisição de download. JobId: {}, Tentando S3Key: {}", jobId, debugKey);
+        log.info("Recebendo requisição de download. JobId: {}, Tentando S3Key: {}", jobId, debugKey);
 
         try {
             byte[] pdfContent = getPdfReportUseCase.execute(jobId);
 
             if (pdfContent == null || pdfContent.length == 0) {
-                logger.warn("Relatório não encontrado no S3 para JobId: {}", jobId);
+                log.warn("Relatório não encontrado no S3 para JobId: {}", jobId);
                 return ResponseEntity.notFound().build();
             }
 
@@ -73,7 +55,7 @@ public class ImportControllerImpl implements ImportController {
                     .body(pdfContent);
 
         } catch (Exception e) {
-            logger.error("Erro interno ao recuperar relatório: {}", jobId, e);
+            log.error("Erro interno ao recuperar relatório: {}", jobId, e);
             return ResponseEntity.internalServerError().build();
         }
     }

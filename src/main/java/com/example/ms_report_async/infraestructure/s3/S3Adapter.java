@@ -70,7 +70,7 @@ public class S3Adapter implements S3Port{
     public byte[] getPdfFromBucketClient(String jobId) {
         logger.debug("Recuperando PDF do S3. JobId: {}", jobId);
 
-        String[] parts = jobId.split(";");
+        String[] parts = jobId.split("__");
         if (parts.length < 2) {
             logger.warn("JobId inválido para recuperação de PDF: {}", jobId);
             return null;

@@ -53,7 +53,7 @@ public class PdfGeneratorAdapter implements GeneratePdfReportUseCase {
         try {
             byte[] pdf = buildPdf(report);
 
-            String uuid = report.jobId().split(";")[1];
+            String uuid = report.jobId().split("__")[1];
 
             String pdfKey = "reports/" + path + "import-report-" + uuid + ".pdf";
 
