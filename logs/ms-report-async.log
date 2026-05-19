@@ -1,87 +1,28 @@
-2026-04-12 01:04:52.470 [background-preinit] INFO  o.h.validator.internal.util.Version [] - HV000001: Hibernate Validator 8.0.2.Final
-2026-04-12 01:04:52.513 [restartedMain] INFO  c.e.m.MsReportAsyncApplication [] - Starting MsReportAsyncApplication using Java 21.0.10 with PID 1265982 (/home/guilherme/Desktop/sptech/PI/async-microservice/target/classes started by guilherme in /home/guilherme/Desktop/sptech/PI/async-microservice)
-2026-04-12 01:04:52.514 [restartedMain] DEBUG c.e.m.MsReportAsyncApplication [] - Running with Spring Boot v3.4.4, Spring v6.2.5
-2026-04-12 01:04:52.515 [restartedMain] INFO  c.e.m.MsReportAsyncApplication [] - No active profile set, falling back to 1 default profile: "default"
-2026-04-12 01:04:52.554 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor [] - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
-2026-04-12 01:04:52.554 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor [] - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-2026-04-12 01:04:53.850 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer [] - Tomcat initialized with port 8081 (http)
-2026-04-12 01:04:53.859 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol [] - Initializing ProtocolHandler ["http-nio-8081"]
-2026-04-12 01:04:53.861 [restartedMain] INFO  o.a.catalina.core.StandardService [] - Starting service [Tomcat]
-2026-04-12 01:04:53.861 [restartedMain] INFO  o.a.catalina.core.StandardEngine [] - Starting Servlet engine: [Apache Tomcat/10.1.39]
-2026-04-12 01:04:53.900 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] [] - Initializing Spring embedded WebApplicationContext
-2026-04-12 01:04:53.900 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext [] - Root WebApplicationContext: initialization completed in 1345 ms
-2026-04-12 01:04:54.666 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext [] - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'processImportFileUseCaseImpl': Injection of autowired dependencies failed
-2026-04-12 01:04:54.708 [restartedMain] INFO  o.a.catalina.core.StandardService [] - Stopping service [Tomcat]
-2026-04-12 01:04:54.731 [restartedMain] INFO  o.s.b.a.l.ConditionEvaluationReportLogger [] - 
-
-Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
-2026-04-12 01:04:54.752 [restartedMain] ERROR o.s.boot.SpringApplication [] - Application run failed
-org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'processImportFileUseCaseImpl': Injection of autowired dependencies failed
-	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:515)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1445)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:600)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:523)
-	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339)
-	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:347)
-	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337)
-	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
-	at org.springframework.beans.factory.support.DefaultListableBeanFactory.instantiateSingleton(DefaultListableBeanFactory.java:1155)
-	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingleton(DefaultListableBeanFactory.java:1121)
-	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:1056)
-	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:987)
-	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:627)
-	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
-	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:752)
-	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439)
-	at org.springframework.boot.SpringApplication.run(SpringApplication.java:318)
-	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1361)
-	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1350)
-	at com.example.ms_report_async.MsReportAsyncApplication.main(MsReportAsyncApplication.java:10)
-	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
-	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50)
-Caused by: org.springframework.util.PlaceholderResolutionException: Could not resolve placeholder 'aws.s3Port.bucket-trusted' in value "${aws.s3Port.bucket-trusted}"
-	at org.springframework.util.PlaceholderResolutionException.withValue(PlaceholderResolutionException.java:81)
-	at org.springframework.util.PlaceholderParser$ParsedValue.resolve(PlaceholderParser.java:423)
-	at org.springframework.util.PlaceholderParser.replacePlaceholders(PlaceholderParser.java:128)
-	at org.springframework.util.PropertyPlaceholderHelper.parseStringValue(PropertyPlaceholderHelper.java:118)
-	at org.springframework.util.PropertyPlaceholderHelper.replacePlaceholders(PropertyPlaceholderHelper.java:114)
-	at org.springframework.core.env.AbstractPropertyResolver.doResolvePlaceholders(AbstractPropertyResolver.java:255)
-	at org.springframework.core.env.AbstractPropertyResolver.resolveRequiredPlaceholders(AbstractPropertyResolver.java:226)
-	at org.springframework.context.support.PropertySourcesPlaceholderConfigurer.lambda$processProperties$0(PropertySourcesPlaceholderConfigurer.java:201)
-	at org.springframework.beans.factory.support.AbstractBeanFactory.resolveEmbeddedValue(AbstractBeanFactory.java:971)
-	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1577)
-	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1555)
-	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:785)
-	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:768)
-	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:146)
-	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:509)
-	... 22 common frames omitted
-2026-04-12 10:44:31.434 [background-preinit] INFO  o.h.validator.internal.util.Version [] - HV000001: Hibernate Validator 8.0.2.Final
-2026-04-12 10:44:31.477 [restartedMain] INFO  c.e.m.MsReportAsyncApplication [] - Starting MsReportAsyncApplication using Java 21.0.10 with PID 75082 (/home/guilherme/Desktop/sptech/PI/async-microservice/target/classes started by guilherme in /home/guilherme/Desktop/sptech/PI/async-microservice)
-2026-04-12 10:44:31.477 [restartedMain] DEBUG c.e.m.MsReportAsyncApplication [] - Running with Spring Boot v3.4.4, Spring v6.2.5
-2026-04-12 10:44:31.478 [restartedMain] INFO  c.e.m.MsReportAsyncApplication [] - No active profile set, falling back to 1 default profile: "default"
-2026-04-12 10:44:31.524 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor [] - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
-2026-04-12 10:44:31.524 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor [] - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-2026-04-12 10:44:32.859 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer [] - Tomcat initialized with port 8081 (http)
-2026-04-12 10:44:32.868 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol [] - Initializing ProtocolHandler ["http-nio-8081"]
-2026-04-12 10:44:32.870 [restartedMain] INFO  o.a.catalina.core.StandardService [] - Starting service [Tomcat]
-2026-04-12 10:44:32.870 [restartedMain] INFO  o.a.catalina.core.StandardEngine [] - Starting Servlet engine: [Apache Tomcat/10.1.39]
-2026-04-12 10:44:32.900 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] [] - Initializing Spring embedded WebApplicationContext
-2026-04-12 10:44:32.900 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext [] - Root WebApplicationContext: initialization completed in 1375 ms
-2026-04-12 10:44:34.182 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer [] - LiveReload server is running on port 35729
-2026-04-12 10:44:34.193 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver [] - Exposing 1 endpoint beneath base path '/actuator'
-2026-04-12 10:44:34.226 [restartedMain] DEBUG o.s.a.r.l.a.MessagingMessageListenerAdapter [] - Inferred argument type for public void com.example.ms_report_async.infraestructure.async.RabbitImportListener.receive(java.lang.String) is class java.lang.String
-2026-04-12 10:44:34.239 [restartedMain] DEBUG o.s.a.r.l.SimpleMessageListenerContainer [] - No global properties bean
-2026-04-12 10:44:34.261 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol [] - Starting ProtocolHandler ["http-nio-8081"]
-2026-04-12 10:44:34.271 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer [] - Tomcat started on port 8081 (http) with context path '/'
-2026-04-12 10:44:34.274 [restartedMain] DEBUG o.s.a.r.l.SimpleMessageListenerContainer [] - Starting Rabbit listener container.
-2026-04-12 10:44:34.276 [restartedMain] INFO  o.s.a.r.c.CachingConnectionFactory [] - Attempting to connect to: [rabbitmq:5672]
-2026-04-12 10:44:34.282 [restartedMain] INFO  o.s.a.r.l.SimpleMessageListenerContainer [] - Broker not available; cannot force queue declarations during start: java.net.UnknownHostException: rabbitmq: Name or service not known
-2026-04-12 10:44:34.288 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-1] INFO  o.s.a.r.c.CachingConnectionFactory [] - Attempting to connect to: [rabbitmq:5672]
-2026-04-12 10:44:34.289 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-1] ERROR o.s.a.r.l.SimpleMessageListenerContainer [] - Failed to check/redeclare auto-delete queue(s).
-org.springframework.amqp.AmqpIOException: java.net.UnknownHostException: rabbitmq
-	at org.springframework.amqp.rabbit.support.RabbitExceptionTranslator.convertRabbitAccessException(RabbitExceptionTranslator.java:70)
+2026-05-19 09:01:10.797 [background-preinit] INFO  o.h.validator.internal.util.Version [] - HV000001: Hibernate Validator 8.0.2.Final
+2026-05-19 09:01:10.849 [restartedMain] INFO  c.e.m.MsReportAsyncApplication [] - Starting MsReportAsyncApplication using Java 21.0.11 with PID 14655 (/home/guilherme/Área de trabalho/sptech/PI/async-microservice/target/classes started by guilherme in /home/guilherme/Área de trabalho/sptech/PI/async-microservice)
+2026-05-19 09:01:10.850 [restartedMain] DEBUG c.e.m.MsReportAsyncApplication [] - Running with Spring Boot v3.4.4, Spring v6.2.5
+2026-05-19 09:01:10.851 [restartedMain] INFO  c.e.m.MsReportAsyncApplication [] - No active profile set, falling back to 1 default profile: "default"
+2026-05-19 09:01:10.919 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor [] - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-05-19 09:01:10.920 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor [] - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-05-19 09:01:12.355 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer [] - Tomcat initialized with port 8081 (http)
+2026-05-19 09:01:12.365 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol [] - Initializing ProtocolHandler ["http-nio-8081"]
+2026-05-19 09:01:12.368 [restartedMain] INFO  o.a.catalina.core.StandardService [] - Starting service [Tomcat]
+2026-05-19 09:01:12.368 [restartedMain] INFO  o.a.catalina.core.StandardEngine [] - Starting Servlet engine: [Apache Tomcat/10.1.39]
+2026-05-19 09:01:12.397 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] [] - Initializing Spring embedded WebApplicationContext
+2026-05-19 09:01:12.398 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext [] - Root WebApplicationContext: initialization completed in 1477 ms
+2026-05-19 09:01:13.701 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer [] - LiveReload server is running on port 35729
+2026-05-19 09:01:13.712 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver [] - Exposing 1 endpoint beneath base path '/actuator'
+2026-05-19 09:01:13.743 [restartedMain] DEBUG o.s.a.r.l.a.MessagingMessageListenerAdapter [] - Inferred argument type for public void com.example.ms_report_async.infraestructure.async.RabbitImportListener.receive(com.example.ms_report_async.application.dto.JobMessage) is class com.example.ms_report_async.application.dto.JobMessage
+2026-05-19 09:01:13.754 [restartedMain] DEBUG o.s.a.r.l.SimpleMessageListenerContainer [] - No global properties bean
+2026-05-19 09:01:13.772 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol [] - Starting ProtocolHandler ["http-nio-8081"]
+2026-05-19 09:01:13.785 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer [] - Tomcat started on port 8081 (http) with context path '/'
+2026-05-19 09:01:13.786 [restartedMain] DEBUG o.s.a.r.l.SimpleMessageListenerContainer [] - Starting Rabbit listener container.
+2026-05-19 09:01:13.788 [restartedMain] INFO  o.s.a.r.c.CachingConnectionFactory [] - Attempting to connect to: [localhost:5672]
+2026-05-19 09:01:13.799 [restartedMain] INFO  o.s.a.r.l.SimpleMessageListenerContainer [] - Broker not available; cannot force queue declarations during start: java.net.ConnectException: Connection refused
+2026-05-19 09:01:13.806 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-1] INFO  o.s.a.r.c.CachingConnectionFactory [] - Attempting to connect to: [localhost:5672]
+2026-05-19 09:01:13.807 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-1] ERROR o.s.a.r.l.SimpleMessageListenerContainer [] - Failed to check/redeclare auto-delete queue(s).
+org.springframework.amqp.AmqpConnectException: java.net.ConnectException: Connection refused
+	at org.springframework.amqp.rabbit.support.RabbitExceptionTranslator.convertRabbitAccessException(RabbitExceptionTranslator.java:61)
 	at org.springframework.amqp.rabbit.connection.AbstractConnectionFactory.createBareConnection(AbstractConnectionFactory.java:632)
 	at org.springframework.amqp.rabbit.connection.CachingConnectionFactory.createConnection(CachingConnectionFactory.java:726)
 	at org.springframework.amqp.rabbit.connection.ConnectionFactoryUtils.createConnection(ConnectionFactoryUtils.java:257)
@@ -95,85 +36,27 @@ org.springframework.amqp.AmqpIOException: java.net.UnknownHostException: rabbitm
 	at org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer$AsyncMessageProcessingConsumer.initialize(SimpleMessageListenerContainer.java:1481)
 	at org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer$AsyncMessageProcessingConsumer.run(SimpleMessageListenerContainer.java:1322)
 	at java.base/java.lang.Thread.run(Thread.java:1583)
-Caused by: java.net.UnknownHostException: rabbitmq
-	at java.base/java.net.InetAddress$CachedLookup.get(InetAddress.java:988)
-	at java.base/java.net.InetAddress.getAllByName0(InetAddress.java:1818)
-	at java.base/java.net.InetAddress.getAllByName(InetAddress.java:1688)
-	at com.rabbitmq.client.DnsRecordIpAddressResolver.resolveIpAddresses(DnsRecordIpAddressResolver.java:83)
-	at com.rabbitmq.client.DnsRecordIpAddressResolver.getAddresses(DnsRecordIpAddressResolver.java:73)
-	at com.rabbitmq.client.ConnectionFactory.newConnection(ConnectionFactory.java:1245)
+Caused by: java.net.ConnectException: Connection refused
+	at java.base/sun.nio.ch.Net.pollConnect(Native Method)
+	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:694)
+	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:542)
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:592)
+	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:327)
+	at java.base/java.net.Socket.connect(Socket.java:751)
+	at com.rabbitmq.client.impl.SocketFrameHandlerFactory.create(SocketFrameHandlerFactory.java:61)
+	at com.rabbitmq.client.ConnectionFactory.newConnection(ConnectionFactory.java:1249)
 	at com.rabbitmq.client.ConnectionFactory.newConnection(ConnectionFactory.java:1198)
 	at org.springframework.amqp.rabbit.connection.AbstractConnectionFactory.connectAddresses(AbstractConnectionFactory.java:678)
 	at org.springframework.amqp.rabbit.connection.AbstractConnectionFactory.connect(AbstractConnectionFactory.java:647)
 	at org.springframework.amqp.rabbit.connection.AbstractConnectionFactory.createBareConnection(AbstractConnectionFactory.java:593)
 	... 12 common frames omitted
-2026-04-12 10:44:34.293 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-1] DEBUG o.s.a.r.l.BlockingQueueConsumer [] - Starting consumer Consumer@2abf0f64: tags=[[]], channel=null, acknowledgeMode=AUTO local queue size=0
-2026-04-12 10:44:34.296 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-1] INFO  o.s.a.r.c.CachingConnectionFactory [] - Attempting to connect to: [rabbitmq:5672]
-2026-04-12 10:44:34.296 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-1] DEBUG o.s.a.r.l.SimpleMessageListenerContainer [] - Recovering consumer in 5000 ms.
-2026-04-12 10:44:34.309 [restartedMain] INFO  c.e.m.MsReportAsyncApplication [] - Started MsReportAsyncApplication in 3.412 seconds (process running for 3.998)
-2026-04-12 10:44:39.184 [SpringApplicationShutdownHook] DEBUG o.s.a.r.l.SimpleMessageListenerContainer [] - Shutting down Rabbit listener container
-2026-04-12 10:44:39.185 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-2] INFO  o.s.a.r.l.SimpleMessageListenerContainer [] - Waiting for workers to finish.
-2026-04-12 10:44:39.185 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-2] INFO  o.s.a.r.l.SimpleMessageListenerContainer [] - Successfully waited for workers to finish.
-2026-04-12 10:44:39.186 [SpringApplicationShutdownHook] INFO  o.s.b.w.e.tomcat.GracefulShutdown [] - Commencing graceful shutdown. Waiting for active requests to complete
-2026-04-12 10:44:39.189 [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown [] - Graceful shutdown complete
-2026-04-12 10:44:39.194 [SpringApplicationShutdownHook] DEBUG o.s.a.r.l.SimpleMessageListenerContainer [] - Shutdown ignored - container is not active already
-2026-04-12 12:11:25.340 [background-preinit] INFO  o.h.validator.internal.util.Version [] - HV000001: Hibernate Validator 8.0.2.Final
-2026-04-12 12:11:25.396 [restartedMain] INFO  c.e.m.MsReportAsyncApplication [] - Starting MsReportAsyncApplication using Java 21.0.10 with PID 186713 (/home/guilherme/Desktop/sptech/PI/async-microservice/target/classes started by guilherme in /home/guilherme/Desktop/sptech/PI/async-microservice)
-2026-04-12 12:11:25.396 [restartedMain] DEBUG c.e.m.MsReportAsyncApplication [] - Running with Spring Boot v3.4.4, Spring v6.2.5
-2026-04-12 12:11:25.397 [restartedMain] INFO  c.e.m.MsReportAsyncApplication [] - No active profile set, falling back to 1 default profile: "default"
-2026-04-12 12:11:25.457 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor [] - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
-2026-04-12 12:11:25.457 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor [] - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-2026-04-12 12:11:27.031 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer [] - Tomcat initialized with port 8081 (http)
-2026-04-12 12:11:27.042 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol [] - Initializing ProtocolHandler ["http-nio-8081"]
-2026-04-12 12:11:27.044 [restartedMain] INFO  o.a.catalina.core.StandardService [] - Starting service [Tomcat]
-2026-04-12 12:11:27.045 [restartedMain] INFO  o.a.catalina.core.StandardEngine [] - Starting Servlet engine: [Apache Tomcat/10.1.39]
-2026-04-12 12:11:27.084 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] [] - Initializing Spring embedded WebApplicationContext
-2026-04-12 12:11:27.084 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext [] - Root WebApplicationContext: initialization completed in 1626 ms
-2026-04-12 12:11:28.596 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer [] - LiveReload server is running on port 35729
-2026-04-12 12:11:28.605 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver [] - Exposing 1 endpoint beneath base path '/actuator'
-2026-04-12 12:11:28.642 [restartedMain] DEBUG o.s.a.r.l.a.MessagingMessageListenerAdapter [] - Inferred argument type for public void com.example.ms_report_async.infraestructure.async.RabbitImportListener.receive(java.lang.String) is class java.lang.String
-2026-04-12 12:11:28.656 [restartedMain] DEBUG o.s.a.r.l.SimpleMessageListenerContainer [] - No global properties bean
-2026-04-12 12:11:28.678 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol [] - Starting ProtocolHandler ["http-nio-8081"]
-2026-04-12 12:11:28.694 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer [] - Tomcat started on port 8081 (http) with context path '/'
-2026-04-12 12:11:28.696 [restartedMain] DEBUG o.s.a.r.l.SimpleMessageListenerContainer [] - Starting Rabbit listener container.
-2026-04-12 12:11:28.700 [restartedMain] INFO  o.s.a.r.c.CachingConnectionFactory [] - Attempting to connect to: [rabbitmq:5672]
-2026-04-12 12:11:28.707 [restartedMain] INFO  o.s.a.r.l.SimpleMessageListenerContainer [] - Broker not available; cannot force queue declarations during start: java.net.UnknownHostException: rabbitmq: Name or service not known
-2026-04-12 12:11:28.716 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-1] INFO  o.s.a.r.c.CachingConnectionFactory [] - Attempting to connect to: [rabbitmq:5672]
-2026-04-12 12:11:28.717 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-1] ERROR o.s.a.r.l.SimpleMessageListenerContainer [] - Failed to check/redeclare auto-delete queue(s).
-org.springframework.amqp.AmqpIOException: java.net.UnknownHostException: rabbitmq
-	at org.springframework.amqp.rabbit.support.RabbitExceptionTranslator.convertRabbitAccessException(RabbitExceptionTranslator.java:70)
-	at org.springframework.amqp.rabbit.connection.AbstractConnectionFactory.createBareConnection(AbstractConnectionFactory.java:632)
-	at org.springframework.amqp.rabbit.connection.CachingConnectionFactory.createConnection(CachingConnectionFactory.java:726)
-	at org.springframework.amqp.rabbit.connection.ConnectionFactoryUtils.createConnection(ConnectionFactoryUtils.java:257)
-	at org.springframework.amqp.rabbit.core.RabbitTemplate.doExecute(RabbitTemplate.java:2262)
-	at org.springframework.amqp.rabbit.core.RabbitTemplate.execute(RabbitTemplate.java:2235)
-	at org.springframework.amqp.rabbit.core.RabbitTemplate.execute(RabbitTemplate.java:2215)
-	at org.springframework.amqp.rabbit.core.RabbitAdmin.getQueueInfo(RabbitAdmin.java:467)
-	at org.springframework.amqp.rabbit.core.RabbitAdmin.getQueueProperties(RabbitAdmin.java:451)
-	at org.springframework.amqp.rabbit.listener.AbstractMessageListenerContainer.attemptDeclarations(AbstractMessageListenerContainer.java:1972)
-	at org.springframework.amqp.rabbit.listener.AbstractMessageListenerContainer.redeclareElementsIfNecessary(AbstractMessageListenerContainer.java:1936)
-	at org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer$AsyncMessageProcessingConsumer.initialize(SimpleMessageListenerContainer.java:1481)
-	at org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer$AsyncMessageProcessingConsumer.run(SimpleMessageListenerContainer.java:1322)
-	at java.base/java.lang.Thread.run(Thread.java:1583)
-Caused by: java.net.UnknownHostException: rabbitmq
-	at java.base/java.net.InetAddress$CachedLookup.get(InetAddress.java:988)
-	at java.base/java.net.InetAddress.getAllByName0(InetAddress.java:1818)
-	at java.base/java.net.InetAddress.getAllByName(InetAddress.java:1688)
-	at com.rabbitmq.client.DnsRecordIpAddressResolver.resolveIpAddresses(DnsRecordIpAddressResolver.java:83)
-	at com.rabbitmq.client.DnsRecordIpAddressResolver.getAddresses(DnsRecordIpAddressResolver.java:73)
-	at com.rabbitmq.client.ConnectionFactory.newConnection(ConnectionFactory.java:1245)
-	at com.rabbitmq.client.ConnectionFactory.newConnection(ConnectionFactory.java:1198)
-	at org.springframework.amqp.rabbit.connection.AbstractConnectionFactory.connectAddresses(AbstractConnectionFactory.java:678)
-	at org.springframework.amqp.rabbit.connection.AbstractConnectionFactory.connect(AbstractConnectionFactory.java:647)
-	at org.springframework.amqp.rabbit.connection.AbstractConnectionFactory.createBareConnection(AbstractConnectionFactory.java:593)
-	... 12 common frames omitted
-2026-04-12 12:11:28.722 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-1] DEBUG o.s.a.r.l.BlockingQueueConsumer [] - Starting consumer Consumer@589164a: tags=[[]], channel=null, acknowledgeMode=AUTO local queue size=0
-2026-04-12 12:11:28.725 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-1] INFO  o.s.a.r.c.CachingConnectionFactory [] - Attempting to connect to: [rabbitmq:5672]
-2026-04-12 12:11:28.725 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-1] DEBUG o.s.a.r.l.SimpleMessageListenerContainer [] - Recovering consumer in 5000 ms.
-2026-04-12 12:11:28.741 [restartedMain] INFO  c.e.m.MsReportAsyncApplication [] - Started MsReportAsyncApplication in 3.956 seconds (process running for 4.42)
-2026-04-12 12:11:33.728 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-1] WARN  o.s.a.r.l.SimpleMessageListenerContainer [] - Consumer raised exception, processing can restart if the connection factory supports it
-org.springframework.amqp.AmqpIOException: java.net.UnknownHostException: rabbitmq
-	at org.springframework.amqp.rabbit.support.RabbitExceptionTranslator.convertRabbitAccessException(RabbitExceptionTranslator.java:70)
+2026-05-19 09:01:13.811 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-1] DEBUG o.s.a.r.l.BlockingQueueConsumer [] - Starting consumer Consumer@55438273: tags=[[]], channel=null, acknowledgeMode=AUTO local queue size=0
+2026-05-19 09:01:13.813 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-1] INFO  o.s.a.r.c.CachingConnectionFactory [] - Attempting to connect to: [localhost:5672]
+2026-05-19 09:01:13.814 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-1] DEBUG o.s.a.r.l.SimpleMessageListenerContainer [] - Recovering consumer in 5000 ms.
+2026-05-19 09:01:13.826 [restartedMain] INFO  c.e.m.MsReportAsyncApplication [] - Started MsReportAsyncApplication in 3.561 seconds (process running for 4.046)
+2026-05-19 09:01:18.818 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-1] WARN  o.s.a.r.l.SimpleMessageListenerContainer [] - Consumer raised exception, processing can restart if the connection factory supports it
+org.springframework.amqp.AmqpConnectException: java.net.ConnectException: Connection refused
+	at org.springframework.amqp.rabbit.support.RabbitExceptionTranslator.convertRabbitAccessException(RabbitExceptionTranslator.java:61)
 	at org.springframework.amqp.rabbit.connection.AbstractConnectionFactory.createBareConnection(AbstractConnectionFactory.java:632)
 	at org.springframework.amqp.rabbit.connection.CachingConnectionFactory.createConnection(CachingConnectionFactory.java:726)
 	at org.springframework.amqp.rabbit.connection.ConnectionFactoryUtils.createConnection(ConnectionFactoryUtils.java:257)
@@ -185,61 +68,30 @@ org.springframework.amqp.AmqpIOException: java.net.UnknownHostException: rabbitm
 	at org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer$AsyncMessageProcessingConsumer.initialize(SimpleMessageListenerContainer.java:1482)
 	at org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer$AsyncMessageProcessingConsumer.run(SimpleMessageListenerContainer.java:1322)
 	at java.base/java.lang.Thread.run(Thread.java:1583)
-Caused by: java.net.UnknownHostException: rabbitmq
-	at java.base/java.net.InetAddress$CachedLookup.get(InetAddress.java:988)
-	at java.base/java.net.InetAddress.getAllByName0(InetAddress.java:1818)
-	at java.base/java.net.InetAddress.getAllByName(InetAddress.java:1688)
-	at com.rabbitmq.client.DnsRecordIpAddressResolver.resolveIpAddresses(DnsRecordIpAddressResolver.java:83)
-	at com.rabbitmq.client.DnsRecordIpAddressResolver.getAddresses(DnsRecordIpAddressResolver.java:73)
-	at com.rabbitmq.client.ConnectionFactory.newConnection(ConnectionFactory.java:1245)
+Caused by: java.net.ConnectException: Connection refused
+	at java.base/sun.nio.ch.Net.pollConnect(Native Method)
+	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:694)
+	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:542)
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:592)
+	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:327)
+	at java.base/java.net.Socket.connect(Socket.java:751)
+	at com.rabbitmq.client.impl.SocketFrameHandlerFactory.create(SocketFrameHandlerFactory.java:61)
+	at com.rabbitmq.client.ConnectionFactory.newConnection(ConnectionFactory.java:1249)
 	at com.rabbitmq.client.ConnectionFactory.newConnection(ConnectionFactory.java:1198)
 	at org.springframework.amqp.rabbit.connection.AbstractConnectionFactory.connectAddresses(AbstractConnectionFactory.java:678)
 	at org.springframework.amqp.rabbit.connection.AbstractConnectionFactory.connect(AbstractConnectionFactory.java:647)
 	at org.springframework.amqp.rabbit.connection.AbstractConnectionFactory.createBareConnection(AbstractConnectionFactory.java:593)
 	... 10 common frames omitted
-2026-04-12 12:11:33.730 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-1] INFO  o.s.a.r.l.SimpleMessageListenerContainer [] - Restarting Consumer@589164a: tags=[[]], channel=null, acknowledgeMode=AUTO local queue size=0
-2026-04-12 12:11:33.730 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-1] DEBUG o.s.a.r.l.BlockingQueueConsumer [] - Closing Rabbit Channel: null
-2026-04-12 12:11:33.731 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-2] INFO  o.s.a.r.c.CachingConnectionFactory [] - Attempting to connect to: [rabbitmq:5672]
-2026-04-12 12:11:33.732 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-2] ERROR o.s.a.r.l.SimpleMessageListenerContainer [] - Failed to check/redeclare auto-delete queue(s).
-2026-04-12 12:11:33.732 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-2] DEBUG o.s.a.r.l.BlockingQueueConsumer [] - Starting consumer Consumer@5eb5220e: tags=[[]], channel=null, acknowledgeMode=AUTO local queue size=0
-2026-04-12 12:11:33.732 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-2] INFO  o.s.a.r.c.CachingConnectionFactory [] - Attempting to connect to: [rabbitmq:5672]
-2026-04-12 12:11:33.732 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-2] DEBUG o.s.a.r.l.SimpleMessageListenerContainer [] - Recovering consumer in 5000 ms.
-2026-04-12 12:11:38.735 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-2] WARN  o.s.a.r.l.SimpleMessageListenerContainer [] - Consumer raised exception, processing can restart if the connection factory supports it
-org.springframework.amqp.AmqpIOException: java.net.UnknownHostException: rabbitmq
-	at org.springframework.amqp.rabbit.support.RabbitExceptionTranslator.convertRabbitAccessException(RabbitExceptionTranslator.java:70)
-	at org.springframework.amqp.rabbit.connection.AbstractConnectionFactory.createBareConnection(AbstractConnectionFactory.java:632)
-	at org.springframework.amqp.rabbit.connection.CachingConnectionFactory.createConnection(CachingConnectionFactory.java:726)
-	at org.springframework.amqp.rabbit.connection.ConnectionFactoryUtils.createConnection(ConnectionFactoryUtils.java:257)
-	at org.springframework.amqp.rabbit.connection.ConnectionFactoryUtils$RabbitResourceFactory.createConnection(ConnectionFactoryUtils.java:345)
-	at org.springframework.amqp.rabbit.connection.ConnectionFactoryUtils.doGetTransactionalResourceHolder(ConnectionFactoryUtils.java:140)
-	at org.springframework.amqp.rabbit.connection.ConnectionFactoryUtils.getTransactionalResourceHolder(ConnectionFactoryUtils.java:102)
-	at org.springframework.amqp.rabbit.connection.ConnectionFactoryUtils.getTransactionalResourceHolder(ConnectionFactoryUtils.java:85)
-	at org.springframework.amqp.rabbit.listener.BlockingQueueConsumer.start(BlockingQueueConsumer.java:641)
-	at org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer$AsyncMessageProcessingConsumer.initialize(SimpleMessageListenerContainer.java:1482)
-	at org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer$AsyncMessageProcessingConsumer.run(SimpleMessageListenerContainer.java:1322)
-	at java.base/java.lang.Thread.run(Thread.java:1583)
-Caused by: java.net.UnknownHostException: rabbitmq
-	at java.base/java.net.InetAddress$CachedLookup.get(InetAddress.java:988)
-	at java.base/java.net.InetAddress.getAllByName0(InetAddress.java:1818)
-	at java.base/java.net.InetAddress.getAllByName(InetAddress.java:1688)
-	at com.rabbitmq.client.DnsRecordIpAddressResolver.resolveIpAddresses(DnsRecordIpAddressResolver.java:83)
-	at com.rabbitmq.client.DnsRecordIpAddressResolver.getAddresses(DnsRecordIpAddressResolver.java:73)
-	at com.rabbitmq.client.ConnectionFactory.newConnection(ConnectionFactory.java:1245)
-	at com.rabbitmq.client.ConnectionFactory.newConnection(ConnectionFactory.java:1198)
-	at org.springframework.amqp.rabbit.connection.AbstractConnectionFactory.connectAddresses(AbstractConnectionFactory.java:678)
-	at org.springframework.amqp.rabbit.connection.AbstractConnectionFactory.connect(AbstractConnectionFactory.java:647)
-	at org.springframework.amqp.rabbit.connection.AbstractConnectionFactory.createBareConnection(AbstractConnectionFactory.java:593)
-	... 10 common frames omitted
-2026-04-12 12:11:38.735 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-2] INFO  o.s.a.r.l.SimpleMessageListenerContainer [] - Restarting Consumer@5eb5220e: tags=[[]], channel=null, acknowledgeMode=AUTO local queue size=0
-2026-04-12 12:11:38.736 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-2] DEBUG o.s.a.r.l.BlockingQueueConsumer [] - Closing Rabbit Channel: null
-2026-04-12 12:11:38.737 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-3] INFO  o.s.a.r.c.CachingConnectionFactory [] - Attempting to connect to: [rabbitmq:5672]
-2026-04-12 12:11:38.738 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-3] ERROR o.s.a.r.l.SimpleMessageListenerContainer [] - Failed to check/redeclare auto-delete queue(s).
-2026-04-12 12:11:38.738 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-3] DEBUG o.s.a.r.l.BlockingQueueConsumer [] - Starting consumer Consumer@506726ee: tags=[[]], channel=null, acknowledgeMode=AUTO local queue size=0
-2026-04-12 12:11:38.738 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-3] INFO  o.s.a.r.c.CachingConnectionFactory [] - Attempting to connect to: [rabbitmq:5672]
-2026-04-12 12:11:38.739 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-3] DEBUG o.s.a.r.l.SimpleMessageListenerContainer [] - Recovering consumer in 5000 ms.
-2026-04-12 12:11:43.366 [SpringApplicationShutdownHook] DEBUG o.s.a.r.l.SimpleMessageListenerContainer [] - Shutting down Rabbit listener container
-2026-04-12 12:11:43.367 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-4] INFO  o.s.a.r.l.SimpleMessageListenerContainer [] - Waiting for workers to finish.
-2026-04-12 12:11:43.367 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-4] INFO  o.s.a.r.l.SimpleMessageListenerContainer [] - Successfully waited for workers to finish.
-2026-04-12 12:11:43.369 [SpringApplicationShutdownHook] INFO  o.s.b.w.e.tomcat.GracefulShutdown [] - Commencing graceful shutdown. Waiting for active requests to complete
-2026-04-12 12:11:43.372 [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown [] - Graceful shutdown complete
-2026-04-12 12:11:43.377 [SpringApplicationShutdownHook] DEBUG o.s.a.r.l.SimpleMessageListenerContainer [] - Shutdown ignored - container is not active already
+2026-05-19 09:01:18.819 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-1] INFO  o.s.a.r.l.SimpleMessageListenerContainer [] - Restarting Consumer@55438273: tags=[[]], channel=null, acknowledgeMode=AUTO local queue size=0
+2026-05-19 09:01:18.819 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-1] DEBUG o.s.a.r.l.BlockingQueueConsumer [] - Closing Rabbit Channel: null
+2026-05-19 09:01:18.820 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-2] INFO  o.s.a.r.c.CachingConnectionFactory [] - Attempting to connect to: [localhost:5672]
+2026-05-19 09:01:18.821 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-2] ERROR o.s.a.r.l.SimpleMessageListenerContainer [] - Failed to check/redeclare auto-delete queue(s).
+2026-05-19 09:01:18.821 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-2] DEBUG o.s.a.r.l.BlockingQueueConsumer [] - Starting consumer Consumer@1c393859: tags=[[]], channel=null, acknowledgeMode=AUTO local queue size=0
+2026-05-19 09:01:18.821 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-2] INFO  o.s.a.r.c.CachingConnectionFactory [] - Attempting to connect to: [localhost:5672]
+2026-05-19 09:01:18.822 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-2] DEBUG o.s.a.r.l.SimpleMessageListenerContainer [] - Recovering consumer in 5000 ms.
+2026-05-19 09:01:23.479 [SpringApplicationShutdownHook] DEBUG o.s.a.r.l.SimpleMessageListenerContainer [] - Shutting down Rabbit listener container
+2026-05-19 09:01:23.480 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-3] INFO  o.s.a.r.l.SimpleMessageListenerContainer [] - Waiting for workers to finish.
+2026-05-19 09:01:23.480 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-3] INFO  o.s.a.r.l.SimpleMessageListenerContainer [] - Successfully waited for workers to finish.
+2026-05-19 09:01:23.481 [SpringApplicationShutdownHook] INFO  o.s.b.w.e.tomcat.GracefulShutdown [] - Commencing graceful shutdown. Waiting for active requests to complete
+2026-05-19 09:01:23.484 [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown [] - Graceful shutdown complete
+2026-05-19 09:01:23.489 [SpringApplicationShutdownHook] DEBUG o.s.a.r.l.SimpleMessageListenerContainer [] - Shutdown ignored - container is not active already

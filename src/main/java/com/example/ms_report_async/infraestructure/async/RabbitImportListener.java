@@ -29,17 +29,23 @@ public class RabbitImportListener {
 
             String jobId = message.jobId();
             String fileKey = message.fileKey();
+            Integer ano = message.ano();
+            Integer mes = message.mes();
 
             logger.debug(
-                    "Iniciando processamento. JobId: {}, FileKey: {}",
+                    "Iniciando processamento. Ano: {}, Mes: {}, JobId: {}, FileKey: {}",
+                    ano,
+                    mes,
                     jobId,
                     fileKey
             );
 
-            useCase.execute(fileKey, jobId);
+            useCase.execute(fileKey, ano, mes, jobId);
 
             logger.info(
-                    "Processamento concluído com sucesso. JobId: {}, FileKey: {}",
+                    "Processamento concluído com sucesso. Ano: {}, Mes: {}, JobId: {}, FileKey: {}",
+                    ano,
+                    mes,
                     jobId,
                     fileKey
             );

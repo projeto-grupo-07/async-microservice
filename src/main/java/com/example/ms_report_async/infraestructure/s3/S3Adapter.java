@@ -67,22 +67,15 @@ public class S3Adapter implements S3Port{
     }
 
     @Override
-    public byte[] getPdfFromBucketClient(String jobId) {
-        logger.debug("Recuperando PDF do S3. JobId: {}", jobId);
+    public byte[] getPdfFromBucketClient(int ano, int mes, String jobId) {
+        logger.debug("Recuperando PDF do S3. Ano: {}, Mes: {}, JobId: {}", ano, mes, jobId);
 
-        String[] parts = jobId.split("__");
-        if (parts.length < 2) {
-            logger.warn("JobId inválido para recuperação de PDF: {}", jobId);
-            return null;
-        }
-
-        //Limpar a barra inicial se houver (mesmo erro do download de CSV)
-        String path = parts[0].startsWith("/") ? parts[0].substring(1) : parts[0];
-        String uuid = parts[1];
+        String month = String.format("%02d", mes);
+        String path = "ano=" + ano + "/mes=" + month + "/";
 
         // Montar a chave EXATAMENTE como ela foi gravada no upload
         // Ex: reports/ano=2026/mes=01/import-report-uuid.pdf
-        String fileName = "reports/" + path + "import-report-" + uuid + ".pdf";
+        String fileName = "reports/" + path + "import-report-" + jobId + ".pdf";
 
         logger.info("Tentando buscar PDF no S3 com a chave: {}", fileName);
 

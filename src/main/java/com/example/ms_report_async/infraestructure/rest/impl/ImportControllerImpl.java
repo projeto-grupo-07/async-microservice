@@ -1,13 +1,13 @@
 package com.example.ms_report_async.infraestructure.rest.impl;
 
-import com.example.ms_report_async.application.dto.JobResponse;
+import com.example.ms_report_async.application.dto.ReportRequestDto;
 import com.example.ms_report_async.domain.service.GetPdfReportUseCase;
 import com.example.ms_report_async.infraestructure.rest.controller.ImportController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -21,33 +21,28 @@ public class ImportControllerImpl implements ImportController {
     }
 
     @Override
-    public ResponseEntity<byte[]> getReport(@PathVariable String jobId) {
-        String[] parts = jobId.split("__");
-        if (parts.length < 2) {
-            log.warn("Requisição de download com JobId inválido: {}", jobId);
+    public ResponseEntity<byte[]> getReport(@ModelAttribute ReportRequestDto reportRequestDto) {
+        Integer ano = reportRequestDto.ano();
+        Integer mes = reportRequestDto.mes();
+        String jobId = reportRequestDto.jobId();
+
+        if (jobId == null || jobId.isBlank() || ano == null || mes == null || mes < 1 || mes > 12 || ano <= 0) {
+            log.warn("Parametros invalidos. Ano: {}, Mes: {}, JobId: {}", ano, mes, jobId);
             return ResponseEntity.badRequest().build();
         }
 
-        // 2. Limpeza de barras extras (se o path vier como "/ano=2026...")
-        String path = parts[0].startsWith("/") ? parts[0].substring(1) : parts[0];
-        String uuid = parts[1];
-
-        String debugKey = "reports/" + path + "import-report-" + uuid + ".pdf";
-        log.info("Recebendo requisição de download. JobId: {}, Tentando S3Key: {}", jobId, debugKey);
-
+        log.info("Recebendo requisição de download. Ano: {}, Mes: {}, JobId: {}", ano, mes, jobId);
         try {
-            byte[] pdfContent = getPdfReportUseCase.execute(jobId);
+            byte[] pdfContent = getPdfReportUseCase.execute(reportRequestDto);
 
             if (pdfContent == null || pdfContent.length == 0) {
-                log.warn("Relatório não encontrado no S3 para JobId: {}", jobId);
+                log.warn("Relatório não encontrado no S3. Ano: {}, Mes: {}, JobId: {}", ano, mes, jobId);
                 return ResponseEntity.notFound().build();
             }
 
-            // 4. Headers para o navegador entender que é um PDF
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_PDF);
-            // Nome amigável para o arquivo que o usuário vai baixar
-            headers.setContentDispositionFormData("attachment", "relatorio-" + uuid + ".pdf");
+            headers.setContentDispositionFormData("attachment", "relatorio-" + jobId + ".pdf");
 
             return ResponseEntity.ok()
                     .headers(headers)
@@ -55,7 +50,7 @@ public class ImportControllerImpl implements ImportController {
                     .body(pdfContent);
 
         } catch (Exception e) {
-            log.error("Erro interno ao recuperar relatório: {}", jobId, e);
+            log.error("Erro interno ao recuperar relatório. Ano: {}, Mes: {}, JobId: {}", ano, mes, jobId, e);
             return ResponseEntity.internalServerError().build();
         }
     }

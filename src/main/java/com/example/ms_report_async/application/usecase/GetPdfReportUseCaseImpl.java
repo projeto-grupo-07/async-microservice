@@ -1,5 +1,6 @@
 package com.example.ms_report_async.application.usecase;
 
+import com.example.ms_report_async.application.dto.ReportRequestDto;
 import com.example.ms_report_async.domain.repository.S3Port;
 import com.example.ms_report_async.domain.service.GetPdfReportUseCase;
 import org.slf4j.Logger;
@@ -17,16 +18,20 @@ public class GetPdfReportUseCaseImpl implements GetPdfReportUseCase {
     }
 
     @Override
-    public byte[] execute(String compositeJobId) {
-        logger.info("Iniciando busca do PDF para o JobId: {}", compositeJobId);
-        byte[] pdfContent = s3Port.getPdfFromBucketClient(compositeJobId);
-        
+    public byte[] execute(ReportRequestDto reportRequestDto) {
+        Integer ano = reportRequestDto.ano();
+        Integer mes = reportRequestDto.mes();
+        String jobId = reportRequestDto.jobId();
+
+        logger.info("Iniciando busca do PDF. Ano: {}, Mes: {}, JobId: {}", ano, mes, jobId);
+        byte[] pdfContent = s3Port.getPdfFromBucketClient(ano, mes, jobId);
+
         if (pdfContent == null) {
-            logger.warn("PDF não encontrado para o JobId: {}", compositeJobId);
-            throw new RuntimeException("PDF não encontrado para o JobId: " + compositeJobId);
+            logger.warn("PDF não encontrado. Ano: {}, Mes: {}, JobId: {}", ano, mes, jobId);
+            throw new RuntimeException("PDF não encontrado para Ano: " + ano + ", Mes: " + mes + ", JobId: " + jobId);
         }
 
-        logger.info("PDF encontrado com sucesso. JobId: {}, Tamanho: {} bytes", compositeJobId, pdfContent.length);
+        logger.info("PDF encontrado com sucesso. Ano: {}, Mes: {}, JobId: {}, Tamanho: {} bytes", ano, mes, jobId, pdfContent.length);
         return pdfContent;
     }
 }

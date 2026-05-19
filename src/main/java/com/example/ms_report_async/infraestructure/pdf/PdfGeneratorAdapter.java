@@ -52,10 +52,12 @@ public class PdfGeneratorAdapter implements GeneratePdfReportUseCase {
 
         try {
             byte[] pdf = buildPdf(report);
+            String normalizedJobId = normalizeJobId(report.jobId());
+            if (normalizedJobId == null || normalizedJobId.isBlank()) {
+                throw new IllegalArgumentException("JobId inválido para geração do PDF");
+            }
 
-            String uuid = report.jobId().split("__")[1];
-
-            String pdfKey = "reports/" + path + "import-report-" + uuid + ".pdf";
+            String pdfKey = "reports/" + path + "import-report-" + normalizedJobId + ".pdf";
 
             s3Port.upload(outputBucket, pdfKey, pdf, PDF_CONTENT_TYPE);
 
@@ -68,6 +70,14 @@ public class PdfGeneratorAdapter implements GeneratePdfReportUseCase {
             logger.error("Erro ao gerar/salvar PDF. JobId: {}", report.jobId(), e);
             throw new RuntimeException("Failed to generate and save PDF", e);
         }
+    }
+
+    private String normalizeJobId(String jobId) {
+        if (jobId == null) {
+            return null;
+        }
+        String[] parts = jobId.split("__", 2);
+        return parts.length == 2 ? parts[1] : jobId;
     }
 
     private byte[] buildPdf(ReportResponseDTO report) {

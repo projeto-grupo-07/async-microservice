@@ -5,5 +5,5 @@ import java.io.InputStream;
 public interface S3Port {
     InputStream download(String bucket, String key);
     void upload(String bucket, String key, byte[] content, String contentType);
-    byte[] getPdfFromBucketClient(String jobId);
+    byte[] getPdfFromBucketClient(int ano, int mes, String jobId);
 }

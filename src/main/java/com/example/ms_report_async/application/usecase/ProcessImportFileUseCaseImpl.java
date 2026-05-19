@@ -37,36 +37,65 @@ public class ProcessImportFileUseCaseImpl implements ProcessImportFileUseCase {
     }
 
     @Override
-    public String execute(String fileKey, String compositeJobId) {
-        String[] parts = compositeJobId.split("__");
-        String path = parts[0];       // "ano=2026/mes=01/"
-        String realUuid = parts[1];   // "550e8400..."
+    public String execute(String fileKey, Integer ano, Integer mes, String jobId) {
+        validateInputs(fileKey, ano, mes, jobId);
+        String path = buildPath(ano, mes);
+        String normalizedJobId = normalizeJobId(jobId);
 
-        logger.info("Iniciando processamento do arquivo. JobId: {}, FileKey: {}, Bucket: {}", compositeJobId, fileKey, bucketTrusted);
+        logger.info("Iniciando processamento do arquivo. JobId: {}, FileKey: {}, Bucket: {}",
+                normalizedJobId, fileKey, bucketTrusted);
         long startTime = System.currentTimeMillis();
 
         try (InputStream inputStream = s3Port.download(bucketTrusted, fileKey)) {
-            logger.debug("Arquivo baixado com sucesso do S3 trusted. JobId: {}, FileKey: {}", compositeJobId, fileKey);
+            logger.debug("Arquivo baixado com sucesso do S3 trusted. JobId: {}, FileKey: {}", normalizedJobId, fileKey);
 
             List<ImportRow> rows = csvParserPort.parse(inputStream);
-            logger.info("CSV parseado com sucesso. JobId: {}, TotalLinhas: {}", compositeJobId, rows.size());
+            logger.info("CSV parseado com sucesso. JobId: {}, TotalLinhas: {}", normalizedJobId, rows.size());
 
-            ReportResponseDTO report = consolidate(rows, compositeJobId);
-            logger.debug("Relatório consolidado. JobId: {}, Linhas: {}", compositeJobId, report.totalRows());
+            ReportResponseDTO report = consolidate(rows, normalizedJobId);
+            logger.debug("Relatório consolidado. JobId: {}, Linhas: {}", normalizedJobId, report.totalRows());
 
             String pdfKey = generatePdfReportUseCase.execute(report, path);
 
             long duration = System.currentTimeMillis() - startTime;
             logger.info("Processamento concluído com sucesso. JobId: {}, Path: {}, PdfKey: {}, DuracaoMs: {}",
-                    compositeJobId, path, pdfKey, duration);
+                    normalizedJobId, path, pdfKey, duration);
 
             return pdfKey;
         } catch (Exception e) {
             long duration = System.currentTimeMillis() - startTime;
             logger.error("Erro ao processar arquivo. JobId: {}, Path: {}, FileKey: {}, DuracaoMs: {}",
-                    compositeJobId, path, fileKey, duration, e);
+                    normalizedJobId, path, fileKey, duration, e);
             throw new RuntimeException("Falha ao processar arquivo: " + fileKey, e);
         }
+    }
+
+    private void validateInputs(String fileKey, Integer ano, Integer mes, String jobId) {
+        if (fileKey == null || fileKey.isBlank()) {
+            throw new IllegalArgumentException("FileKey inválido");
+        }
+        if (ano == null || ano <= 0) {
+            throw new IllegalArgumentException("Ano inválido");
+        }
+        if (mes == null || mes < 1 || mes > 12) {
+            throw new IllegalArgumentException("Mês inválido");
+        }
+        if (jobId == null || jobId.isBlank()) {
+            throw new IllegalArgumentException("JobId inválido");
+        }
+    }
+
+    private String buildPath(int ano, int mes) {
+        String formattedMonth = String.format("%02d", mes);
+        return "ano=" + ano + "/mes=" + formattedMonth + "/";
+    }
+
+    private String normalizeJobId(String jobId) {
+        if (jobId == null) {
+            return null;
+        }
+        String[] parts = jobId.split("__", 2);
+        return parts.length == 2 ? parts[1] : jobId;
     }
 
     private ReportResponseDTO consolidate(List<ImportRow> rows, String jobId) {
