@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/import")
 @Tag(name = "Import", description = "Endpoints para importação de arquivos")
 public interface ImportController {
-    @PostMapping("/report")
+    @GetMapping("/report")
     @Operation(summary = "Baixar relatório PDF", description = "Retorna o PDF gerado para um Job ID específico")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "PDF retornado com sucesso",
